@@ -27,7 +27,7 @@ const (
 )
 
 var basketRetailers = map[string][]string{
-	"Grocery":      {"WOOLWORTHS", "FOOD LOVERS", "PICK N PAY", "PNP", "SPAR", "CHECKERS"},
+	"Grocery":      {"WOOLWORTHS", "FOOD LOVERS", "FLM", "PICK N PAY", "PNP", "CHECKERS"},
 	"HealthBeauty": {"DISCHEM", "DIS-CHEM"},
 	"Fuel":         {"SASOL"},
 }
@@ -62,8 +62,8 @@ func main() {
 	}
 
 	// Rewards cycle: 16 June 2025 to 15 July 2025
-	cycleStart := time.Date(2025, 8, 16, 0, 0, 0, 0, time.Local)
-	cycleEnd := time.Date(2025, 9, 15, 23, 59, 59, 0, time.Local)
+	cycleStart := time.Date(2025, 9, 16, 0, 0, 0, 0, time.Local)
+	cycleEnd := time.Date(2025, 10, 15, 23, 59, 59, 0, time.Local)
 
 	chequeTxs = filterByDateRange(chequeTxs, cycleStart, cycleEnd)
 	creditTxs = filterByDateRange(creditTxs, cycleStart, cycleEnd)
