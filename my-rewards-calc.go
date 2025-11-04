@@ -61,9 +61,11 @@ func main() {
 		return
 	}
 
+	now := time.Now()
+
 	// Rewards cycle: 16 June 2025 to 15 July 2025
-	cycleStart := time.Date(2025, 9, 16, 0, 0, 0, 0, time.Local)
-	cycleEnd := time.Date(2025, 10, 15, 23, 59, 59, 0, time.Local)
+	cycleStart := time.Date(now.Year(), now.Month()-1, 16, 0, 0, 0, 0, time.Local)
+	cycleEnd := time.Date(now.Year(), now.Month(), 15, 23, 59, 59, 0, time.Local)
 
 	chequeTxs = filterByDateRange(chequeTxs, cycleStart, cycleEnd)
 	creditTxs = filterByDateRange(creditTxs, cycleStart, cycleEnd)
