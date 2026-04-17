@@ -23,7 +23,7 @@ of the previous month to the 15th of the current month and awarded on the 1st of
 
 It basic and assumes the top tier. Functionality to be extended and UI mattured incrementally.
 
-## How to run
+## How to run backwards
 
 ```
 go mod init a-rewards-calc
