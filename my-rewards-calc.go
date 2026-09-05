@@ -27,9 +27,11 @@ const (
 )
 
 var basketRetailers = map[string][]string{
-	"Grocery":      {"WOOLWORTHS", "FOOD LOVERS", "FLM", "PICK N PAY", "PNP", "CHECKERS"},
-	"HealthBeauty": {"DISCHEM", "DIS-CHEM"},
-	"Fuel":         {"SASOL"},
+	"Grocery":          {"WOOLWORTHS", "FOOD LOVERS", "FLM", "PICK N PAY", "PNP", "CHECKERS"},
+	"HealthBeauty":     {"another"},
+	"Fuel":             {"SASOL"},
+	"Travel":           {"AVIS", "TRAVELSTART", "TOUCHDOWN"},
+	"DigitalLifestyle": {"DIGITAL VOUCHERS"},
 }
 
 var totalSpendThresholds = []struct {
@@ -63,9 +65,20 @@ func main() {
 
 	now := time.Now()
 
-	// Rewards cycle: 16 June 2025 to 15 July 2025
-	cycleStart := time.Date(now.Year(), now.Month()-1, 16, 0, 0, 0, 0, time.Local)
-	cycleEnd := time.Date(now.Year(), now.Month(), 15, 23, 59, 59, 0, time.Local)
+	monthOffset := 0
+	if len(os.Args) > 1 {
+		switch strings.ToLower(os.Args[1]) {
+		case "last":
+			monthOffset = -1
+		case "previous":
+			monthOffset = -2
+		default:
+			fmt.Println("Usage: rewards [last|previous]")
+			return
+		}
+	}
+
+	cycleStart, cycleEnd := rewardsCycle(now, monthOffset)
 
 	chequeTxs = filterByDateRange(chequeTxs, cycleStart, cycleEnd)
 	creditTxs = filterByDateRange(creditTxs, cycleStart, cycleEnd)
@@ -96,7 +109,7 @@ func main() {
 		}
 	}
 
-	qualifyingBaskets := []string{"Grocery", "HealthBeauty", "Fuel"}
+	qualifyingBaskets := []string{"Grocery", "HealthBeauty", "Fuel", "Travel"}
 	basketRewards := map[string]float64{}
 	totalBasketReward := 0.0
 
@@ -116,6 +129,9 @@ func main() {
 
 	// Output
 	fmt.Println("==== Rewards Estimate ====")
+	fmt.Println("Period:", cycleStart.Format("2006-01-02 15:04:05"),
+		"to", cycleEnd.Format("2006-01-02 15:04:05"))
+	fmt.Println("==========================")
 	fmt.Printf("Digital Voucher Reward (Cheque Account): R %.2f\n", chequeReward)
 
 	fmt.Println("\nCredit Card Basket Rewards:")
@@ -133,6 +149,28 @@ func main() {
 }
 
 // === Helpers ===
+
+func rewardsCycle(now time.Time, monthOffset int) (time.Time, time.Time) {
+	base := now.AddDate(0, monthOffset, 0)
+
+	start := time.Date(
+		base.Year(),
+		base.Month()-1,
+		16,
+		0, 0, 0, 0,
+		time.Local,
+	)
+
+	end := time.Date(
+		base.Year(),
+		base.Month(),
+		15,
+		23, 59, 59, 0,
+		time.Local,
+	)
+
+	return start, end
+}
 
 func parseCSV(file string, accountType string) ([]Transaction, error) {
 	f, err := os.Open(file)
