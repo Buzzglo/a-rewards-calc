@@ -27,10 +27,10 @@ const (
 )
 
 var basketRetailers = map[string][]string{
-	"Grocery":          {"WOOLWORTHS", "FOOD LOVERS", "FLM", "PICK N PAY", "PNP", "CHECKERS"},
+	"Grocery":          {"WOOLWORTHS", "FOOD LOVERS", "FLM", "PICK N PAY", "PNP", "CHECKERS", "shoprite"},
 	"HealthBeauty":     {"another"},
-	"Fuel":             {"SASOL"},
-	"Travel":           {"AVIS", "TRAVELSTART", "TOUCHDOWN"},
+	"Fuel":             {"SASOL", "SHELL"},
+	"Travel":           {"AVIS", "TRAVELSTART"},
 	"DigitalLifestyle": {"DIGITAL VOUCHERS"},
 }
 
